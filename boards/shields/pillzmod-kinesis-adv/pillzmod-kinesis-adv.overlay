@@ -14,13 +14,6 @@
         zmk,backlight = &backlight;
     };
 
-    aliases {
-        led-caps = &led_0;
-        led-num = &led_1;
-        led-scroll = &led_2;
-        led-layer = &led_3;
-    };
-
     backlight: gpioleds {
         compatible = "gpio-leds";
         gpio_led_0 {
