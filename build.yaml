@@ -18,12 +18,6 @@
 #
 ---
 include:
-  - board: blackpill_f401cc
-    shield: pillzmod-kinesis-adv 
-  - board: blackpill_f401ce
-    shield: pillzmod-kinesis-adv
-  - board: blackpill_f411ce
-    shield: pillzmod-kinesis-adv
   - board: pillbug
     shield: pillzmod-kinesis-adv
   - board: pillbug
