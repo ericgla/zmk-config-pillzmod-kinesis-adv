@@ -26,9 +26,9 @@
     &kp MEH        &kp A         &kp S         &kp D         &kp F         &kp G                                                           &kp H         &kp J         &kp K         &kp L         &kp SEMICOLON  &kp SINGLE_QUOTE
     &kp LSHIFT     &kp Z         &kp X         &kp C         &kp V         &kp B                                                           &kp N         &kp M         &kp COMMA     &kp DOT       &kp SLASH      &kp RSHIFT
                    &kp DELETE    &kp GRAVE     &kp LEFT      &kp RIGHT                                                      &kp UP        &kp DOWN      &kp LBKT      &kp RBKT
-                                               &kp LGUI      &kp LALT                                  &kp LBRC        &kp RBRC
-                                                             &kp HOME                                  &kp PG_UP
-                                   &kp BSPC    &kp LCTRL     &kp END            &kp PG_DN     &kp ENTER     &kp SPACE
+                                               &kp LCTRL     &kp LALT          &kp LBRC      &kp RBRC
+                                                             &kp HOME          &kp PG_UP
+                                   &kp BSPC    &kp LGUI      &kp END            &kp PG_DN    &kp ENTER     &kp SPACE
             >;
         };
         

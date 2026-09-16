@@ -20,5 +20,5 @@
 include:
   - board: pillbug
     shield: pillzmod-kinesis-adv
-  - board: pillbug
-    shield: settings_reset
+# - board: pillbug
+#   shield: settings_reset
