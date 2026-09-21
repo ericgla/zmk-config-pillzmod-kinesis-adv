@@ -20,15 +20,17 @@ static const struct device *led_dev = DEVICE_DT_GET(LED_GPIO_NODE_ID);
 static int led_layer_listener_cb(const zmk_event_t *eh) {
     const struct zmk_layer_state_changed *ev = as_zmk_layer_state_changed(eh);
 
+    int err = 0;
+
     switch (ev->layer) {
     case 1:
         if (ev->state) {
             // TEMP DIAGNOSTIC: audible confirmation that this callback fired
             // for layer 1, independent of whether the LED itself lights.
             buzzer_beep(3000, K_MSEC(60));
-            led_on(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer1)));
+            err = led_on(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer1)));
         } else {
-            led_off(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer1)));
+            err = led_off(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer1)));
         }
         break;
     case 2:
@@ -36,11 +38,19 @@ static int led_layer_listener_cb(const zmk_event_t *eh) {
             // TEMP DIAGNOSTIC: audible confirmation that this callback fired
             // for layer 2, independent of whether the LED itself lights.
             buzzer_beep(4500, K_MSEC(60));
-            led_on(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer2)));
+            err = led_on(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer2)));
         } else {
-            led_off(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer2)));
+            err = led_off(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer2)));
         }
         break;
+    }
+
+    if (err) {
+        // TEMP DIAGNOSTIC: two quick low beeps means led_on()/led_off()
+        // itself returned an error (e.g. bad LED index).
+        buzzer_beep(400, K_MSEC(80));
+        k_sleep(K_MSEC(120));
+        buzzer_beep(400, K_MSEC(80));
     }
 
     return 0;
@@ -55,6 +65,16 @@ static int leds_init(const struct device *device) {
         // ready (separate from the normal boot tone).
         buzzer_beep(500, K_MSEC(300));
         return -ENODEV;
+    }
+
+    // TEMP DIAGNOSTIC: permanently light LED index 0 (a different physical
+    // LED than the layer indicators) to test the GPIO/LED hardware path
+    // independent of the layer-alias index logic.
+    int err = led_on(led_dev, 0);
+    if (err) {
+        buzzer_beep(400, K_MSEC(80));
+        k_sleep(K_MSEC(120));
+        buzzer_beep(400, K_MSEC(80));
     }
 
     return 0;
