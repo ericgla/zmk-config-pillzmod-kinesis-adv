@@ -13,11 +13,6 @@
         zmk,matrix_transform = &default_transform;
     };
 
-    aliases {
-        led-layer1 = &led_1;
-        led-layer2 = &led_2;
-    };
-
     leds: gpioleds {
         compatible = "gpio-leds";
         led_0: led_0 {
