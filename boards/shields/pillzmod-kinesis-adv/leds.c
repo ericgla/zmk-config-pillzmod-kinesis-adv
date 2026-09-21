@@ -3,8 +3,6 @@
 #include <zephyr/drivers/led.h>
 #include <zephyr/kernel.h>
 #include <zephyr/init.h>
-#include <zmk/hid_indicators.h>
-#include <zmk/events/hid_indicators_changed.h>
 #include <zmk/events/layer_state_changed.h>
 
 #define LED_GPIO_NODE_ID DT_COMPAT_GET_ANY_STATUS_OKAY(gpio_leds)
@@ -12,19 +10,27 @@
 // GPIO-based LED device
 static const struct device *led_dev = DEVICE_DT_GET(LED_GPIO_NODE_ID);
 
-ZMK_SUBSCRIPTION(led_indicators_listener, zmk_hid_indicators_changed);
-
-// Layer state listener for layer #1 LED
+// Light one LED per active layer: layer 1 -> led-layer1, layer 2 -> led-layer2
 static int led_layer_listener_cb(const zmk_event_t *eh) {
     const struct zmk_layer_state_changed *ev = as_zmk_layer_state_changed(eh);
 
-    if (ev->layer == 1) { // Check if the event is for layer #1
+    switch (ev->layer) {
+    case 1:
         if (ev->state) {
-            led_on(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer)));
+            led_on(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer1)));
         } else {
-            led_off(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer)));
+            led_off(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer1)));
         }
+        break;
+    case 2:
+        if (ev->state) {
+            led_on(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer2)));
+        } else {
+            led_off(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer2)));
+        }
+        break;
     }
+
     return 0;
 }
 

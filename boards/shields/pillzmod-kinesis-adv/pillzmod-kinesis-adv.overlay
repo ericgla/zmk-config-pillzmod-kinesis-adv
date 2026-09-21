@@ -11,22 +11,26 @@
     chosen {
         zmk,kscan = &kscan0;
         zmk,matrix_transform = &default_transform;
-        zmk,backlight = &backlight;
     };
 
-    backlight: gpioleds {
+    aliases {
+        led-layer1 = &led_1;
+        led-layer2 = &led_2;
+    };
+
+    leds: gpioleds {
         compatible = "gpio-leds";
-        gpio_led_0 {
-            gpios = <&blackpill 46 GPIO_ACTIVE_LOW>;
+        led_0: led_0 {
+            gpios = <&blackpill 46 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         };
-        gpio_led_1 {
-            gpios = <&blackpill 10 GPIO_ACTIVE_LOW>;
+        led_1: led_1 {
+            gpios = <&blackpill 10 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         };
-        gpio_led_2 {
-            gpios = <&blackpill 11 GPIO_ACTIVE_LOW>;
+        led_2: led_2 {
+            gpios = <&blackpill 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         };
-        gpio_led_3 {
-            gpios = <&blackpill 12 GPIO_ACTIVE_LOW>;
+        led_3: led_3 {
+            gpios = <&blackpill 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         };
     };
 

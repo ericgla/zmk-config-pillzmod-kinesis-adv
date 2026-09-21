@@ -56,7 +56,7 @@
            &none  &none  &none  &none                                                                                 &none  &none  &none  &none
                                               &none  &none                                        &none  &none
                                                      &none                                        &none
-                                  &bl BL_TOG  &none  &none                                        &none  &none  &none
+                                  &none       &none  &none                                        &none  &none  &none
             >;
         };
 
