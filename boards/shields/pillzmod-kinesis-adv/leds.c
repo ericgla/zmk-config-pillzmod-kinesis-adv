@@ -5,7 +5,11 @@
 #include <zephyr/init.h>
 #include <zmk/events/layer_state_changed.h>
 
-#define LED_GPIO_NODE_ID DT_COMPAT_GET_ANY_STATUS_OKAY(gpio_leds)
+// PillBug's own board devicetree also declares a gpio-leds node for its
+// onboard status LED, so DT_COMPAT_GET_ANY_STATUS_OKAY(gpio_leds) is
+// ambiguous and can bind to the wrong device. Target our shield's node by
+// its label instead.
+#define LED_GPIO_NODE_ID DT_NODELABEL(leds)
 
 // GPIO-based LED device
 static const struct device *led_dev = DEVICE_DT_GET(LED_GPIO_NODE_ID);
