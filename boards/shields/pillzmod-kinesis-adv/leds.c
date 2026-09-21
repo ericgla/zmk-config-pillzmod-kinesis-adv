@@ -5,6 +5,8 @@
 #include <zephyr/init.h>
 #include <zmk/events/layer_state_changed.h>
 
+#include "buzzer.h"
+
 // PillBug's own board devicetree also declares a gpio-leds node for its
 // onboard status LED, so DT_COMPAT_GET_ANY_STATUS_OKAY(gpio_leds) is
 // ambiguous and can bind to the wrong device. Target our shield's node by
@@ -21,6 +23,9 @@ static int led_layer_listener_cb(const zmk_event_t *eh) {
     switch (ev->layer) {
     case 1:
         if (ev->state) {
+            // TEMP DIAGNOSTIC: audible confirmation that this callback fired
+            // for layer 1, independent of whether the LED itself lights.
+            buzzer_beep(3000, K_MSEC(60));
             led_on(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer1)));
         } else {
             led_off(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer1)));
@@ -28,6 +33,9 @@ static int led_layer_listener_cb(const zmk_event_t *eh) {
         break;
     case 2:
         if (ev->state) {
+            // TEMP DIAGNOSTIC: audible confirmation that this callback fired
+            // for layer 2, independent of whether the LED itself lights.
+            buzzer_beep(4500, K_MSEC(60));
             led_on(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer2)));
         } else {
             led_off(led_dev, DT_NODE_CHILD_IDX(DT_ALIAS(led_layer2)));
@@ -43,6 +51,9 @@ ZMK_SUBSCRIPTION(layer_led_listener, zmk_layer_state_changed);
 
 static int leds_init(const struct device *device) {
     if (!device_is_ready(led_dev)) {
+        // TEMP DIAGNOSTIC: low tone means the LED device failed to become
+        // ready (separate from the normal boot tone).
+        buzzer_beep(500, K_MSEC(300));
         return -ENODEV;
     }
 
