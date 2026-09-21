@@ -6,7 +6,7 @@
 #include <zmk/events/layer_state_changed.h>
 
 #define BOOT_TONE_DURATION_MS  300
-#define LAYER_TONE_DURATION_MS 150
+#define LAYER_TONE_DURATION_MS 250
 
 static const struct pwm_dt_spec buzzer = PWM_DT_SPEC_GET(DT_PATH(zephyr_user));
 
